@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Ring3Debugger.vcxproj" Id="b1b0fc21-5f5b-4ec4-9465-192e2830341a" />
+</Solution>
