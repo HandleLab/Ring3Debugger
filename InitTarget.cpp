@@ -1,7 +1,7 @@
 #include "InitTarget.h"
 
 
-DWORD findTarget()
+DWORD GetMainThreadId()
 {
 	HWND windowHanddle{ NULL };
 	std::wstring windowName;
@@ -51,7 +51,8 @@ debugValue PromptDebugValue()
 bool SetThreadContextExtraction(debugValue DebugValue)
 {
 	
-	DWORD threadId = findTarget();
+	DWORD threadId = GetMainThreadId();
+
 
 	if (threadId != NULL)
 	{
@@ -78,10 +79,26 @@ bool SetThreadContextExtraction(debugValue DebugValue)
 			return true;
 		}
 
-		CloseHandle(threadHdl);
 	}
 	
 	return false;
 }
 
 
+LONG CALLBACK MyVehHandler(PEXCEPTION_POINTERS ExceptionInfo)
+{
+	if (ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP)
+	{
+		std::cout << "Adresse du network serializer : " << std::hex << ExceptionInfo->ContextRecord->Eip << std::endl;
+
+		ExceptionInfo->ContextRecord->Dr0 = 0;
+		ExceptionInfo->ContextRecord->Dr7 = 0;
+
+		return EXCEPTION_CONTINUE_EXECUTION;
+	}
+
+	else
+	{
+		return EXCEPTION_CONTINUE_SEARCH;
+	}
+}

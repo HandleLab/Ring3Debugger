@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <iostream>
 
-DWORD findTarget();
+#define CALL_FIRST 1 
+
+DWORD GetMainThreadId();
 
 struct debugValue
 {
@@ -11,4 +13,6 @@ struct debugValue
 
 debugValue PromptDebugValue();
 
-bool SetThreadContextExtraction(DWORD dwThreadId, debugValue DebugValue, CONTEXT ctx);
+bool SetThreadContextExtraction(debugValue DebugValue);
+
+LONG CALLBACK MyVehHandler(PEXCEPTION_POINTERS ExceptionInfo);

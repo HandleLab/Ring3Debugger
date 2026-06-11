@@ -19,8 +19,12 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     std::cout << "[+] DLL Injectee avec succes !" << std::endl;
     std::cout << "[+] Appuie sur la touche FIN (END) pour ejecter la dll." << std::endl;
 
+    debugValue userDebugValue = PromptDebugValue();
+
+    SetThreadContextExtraction(userDebugValue);
 
 
+    AddVectoredExceptionHandler(CALL_FIRST, MyVehHandler);
 
     while (!GetAsyncKeyState(VK_END))
     {
@@ -39,6 +43,8 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     {
         fclose(f);
     }
+
+    RemoveVectoredExceptionHandler(MyVehHandler);
 
     FreeConsole();
 
