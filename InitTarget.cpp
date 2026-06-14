@@ -1,5 +1,6 @@
 #include "InitTarget.h"
 
+bool closeDll = false;
 
 DWORD GetMainThreadId()
 {
@@ -93,6 +94,8 @@ LONG CALLBACK MyVehHandler(PEXCEPTION_POINTERS ExceptionInfo)
 
 		ExceptionInfo->ContextRecord->Dr0 = 0;
 		ExceptionInfo->ContextRecord->Dr7 = 0;
+
+		closeDll = true;
 
 		return EXCEPTION_CONTINUE_EXECUTION;
 	}

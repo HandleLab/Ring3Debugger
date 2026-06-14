@@ -24,9 +24,9 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
     SetThreadContextExtraction(userDebugValue);
 
 
-    AddVectoredExceptionHandler(CALL_FIRST, MyVehHandler);
+    HANDLE exceptionHandler = AddVectoredExceptionHandler(CALL_FIRST, MyVehHandler);
 
-    while (!GetAsyncKeyState(VK_END))
+    while (!closeDll)
     {
 
 
@@ -41,10 +41,11 @@ DWORD WINAPI MainThread(LPVOID lpReserved)
 
     if (f != nullptr)
     {
-        fclose(f);
+        fclose(stdin);
+        fclose(stdout);
     }
 
-    RemoveVectoredExceptionHandler(MyVehHandler);
+    if (exceptionHandler != NULL){ RemoveVectoredExceptionHandler(exceptionHandler); }
 
     FreeConsole();
 

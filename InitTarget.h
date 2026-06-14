@@ -3,6 +3,8 @@
 
 #define CALL_FIRST 1 
 
+extern bool closeDll;
+
 DWORD GetMainThreadId();
 
 struct debugValue
